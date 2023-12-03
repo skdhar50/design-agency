@@ -1,15 +1,18 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../globals.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+export async function generateMetadata() {
+  const res = await fetch(`${process.env.BASE_URL}/api/SiteMeta/team`);
+  const JSON = await res.json();
 
-export const metadata: Metadata = {
-  title: "Team",
-  description: "",
-};
+  return {
+    title: JSON[0]?.title,
+    description: JSON[0]?.description,
+    keywords: JSON[0].keywords,
+    openGraph: {
+      images: JSON[0]?.image,
+    },
+  };
+}
 
 export default function TeamPageLayout({
   children,
@@ -17,12 +20,9 @@ export default function TeamPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gray-100`}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <div className="bg-gray-100">
+      <Navbar />
+      {children}
+    </div>
   );
 }

@@ -1,6 +1,11 @@
-"use client"
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function Navbar() {
+  const currentRoute = usePathname();
+
   return (
     <header className="flex justify-between items-center py-[15px] container mx-auto">
       <div className="logo text-[20px] font-[700]">
@@ -9,17 +14,60 @@ function Navbar() {
         </p>
       </div>
       <div className="flex gap-[30px] font-[16px]">
-        <p className="p-[10px]">Home</p>
-        <p className="p-[10px]">Team</p>
-        <p className="p-[10px]">Service</p>
-        <p className="p-[10px]">Projects</p>
-        <p className="p-[10px]">Testimonials</p>
-        <p className="p-[10px] rounded-[10px] border-[1px] border-[#20B15A] cursor-pointer">
+        <Link
+          href="/home"
+          className={`p-[10px] transition duration-100 ${
+            currentRoute === "/home" ? "border-b-2 border-b-[#20B15A]" : ""
+          }`}
+        >
+          Home
+        </Link>
+        <Link
+          href="/team"
+          className={`p-[10px] transition duration-100 ${
+            currentRoute === "/team" ? "border-b-2 border-b-[#20B15A]" : ""
+          }`}
+        >
+          Team
+        </Link>
+        <Link
+          href="/services"
+          className={`p-[10px] transition duration-100 ${
+            currentRoute === "/services" ? "border-b-2 border-b-[#20B15A]" : ""
+          }`}
+        >
+          Service
+        </Link>
+        <Link
+          href="/projects"
+          className={`p-[10px] transition duration-100 ${
+            currentRoute === "/projects" ? "border-b-2 border-b-[#20B15A]" : ""
+          }`}
+        >
+          Projects
+        </Link>
+        <Link
+          href="/testimonial"
+          className={`p-[10px] transition duration-100 ${
+            currentRoute === "/testimonial"
+              ? "border-b-2 border-b-[#20B15A]"
+              : ""
+          }`}
+        >
+          Testimonials
+        </Link>
+        <Link
+          href="/home"
+          className="p-[10px] rounded-[10px] border-[1px] border-[#20B15A] cursor-pointer"
+        >
           Login
-        </p>
-        <p className="p-[10px] bg-[#20B15A] rounded-[10px] text-white cursor-pointer">
+        </Link>
+        <Link
+          href="/home"
+          className="p-[10px] bg-[#20B15A] rounded-[10px] text-white cursor-pointer"
+        >
           Register
-        </p>
+        </Link>
       </div>
     </header>
   );

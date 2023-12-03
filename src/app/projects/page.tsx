@@ -2,15 +2,33 @@ import MainTitle from "@/components/MainTitle";
 import SubscribeForm from "@/components/SubscribeForm";
 import Image from "next/image";
 import React from "react";
-import { FaGreaterThan } from "react-icons/fa6";
 
-const ProjectsPage = () => {
+interface ProjectsType {
+  id: number;
+  title: string;
+  image: string;
+  live: string;
+  remark: string;
+}
+
+async function getData() {
+  const res = await fetch(`${process.env.BASE_URL}/api/AllProject`);
+  if (!res.ok) {
+    throw new Error("Team calling fail!");
+  }
+
+  return res.json();
+}
+
+const ProjectsPage = async () => {
+  const data = await getData();
+
   return (
     <div>
       {/* Title section */}
       <MainTitle title="All Project" currentPage="All Project" />
 
-      {/* Sevices section */}
+      {/* Projects section */}
       <div className="bg-white">
         <div className="container py-[70px] mx-auto">
           <div className="mb-[72px]">
@@ -24,78 +42,21 @@ const ProjectsPage = () => {
             </h2>
           </div>
           <div className="grid grid-cols-2 gap-[32px] content-center">
-            <div className="shadow-lg bg-white rounded-[20px] px-[30px] py-[40px] flex flex-col gap-[30px]">
-              <Image
-                width={1024}
-                height={768}
-                src="/assets/images/projects/all-project-1.png"
-                alt=""
-                className="object-cover rounded-[20px]"
-              />
-              <h2 className="text-[26px] font-[600]">
-                Lorem ipsum dolor sit consectutar
-              </h2>
-            </div>
-            <div className="shadow-lg bg-white rounded-[20px] px-[30px] py-[40px] flex flex-col gap-[30px]">
-              <Image
-                width={1024}
-                height={768}
-                src="/assets/images/projects/all-project-2.png"
-                alt=""
-                className="object-cover rounded-[20px]"
-              />
-              <h2 className="text-[26px] font-[600]">
-                Lorem ipsum dolor sit consectutar
-              </h2>
-            </div>
-            <div className="shadow-lg bg-white rounded-[20px] px-[30px] py-[40px] flex flex-col gap-[30px]">
-              <Image
-                width={1024}
-                height={768}
-                src="/assets/images/projects/all-project-3.png"
-                alt=""
-                className="object-cover rounded-[20px]"
-              />
-              <h2 className="text-[26px] font-[600]">
-                Lorem ipsum dolor sit consectutar
-              </h2>
-            </div>
-            <div className="shadow-lg bg-white rounded-[20px] px-[30px] py-[40px] flex flex-col gap-[30px]">
-              <Image
-                width={1024}
-                height={768}
-                src="/assets/images/projects/all-project-4.png"
-                alt=""
-                className="object-cover rounded-[20px]"
-              />
-              <h2 className="text-[26px] font-[600]">
-                Lorem ipsum dolor sit consectutar
-              </h2>
-            </div>
-            <div className="shadow-lg bg-white rounded-[20px] px-[30px] py-[40px] flex flex-col gap-[30px]">
-              <Image
-                width={1024}
-                height={768}
-                src="/assets/images/projects/all-project-5.png"
-                alt=""
-                className="object-cover rounded-[20px]"
-              />
-              <h2 className="text-[26px] font-[600]">
-                Lorem ipsum dolor sit consectutar
-              </h2>
-            </div>
-            <div className="shadow-lg bg-white rounded-[20px] px-[30px] py-[40px] flex flex-col gap-[30px]">
-              <Image
-                width={1024}
-                height={768}
-                src="/assets/images/projects/all-project-6.png"
-                alt=""
-                className="object-cover rounded-[20px]"
-              />
-              <h2 className="text-[26px] font-[600]">
-                Lorem ipsum dolor sit consectutar
-              </h2>
-            </div>
+            {data?.map((project: ProjectsType, index: number) => (
+              <div
+                key={project?.id}
+                className="shadow-lg bg-white rounded-[20px] px-[30px] py-[40px] flex flex-col gap-[30px]"
+              >
+                <Image
+                  width={1024}
+                  height={768}
+                  src={project?.image}
+                  alt=""
+                  className="object-cover rounded-[20px]"
+                />
+                <h2 className="text-[26px] font-[600]">{project?.title}</h2>
+              </div>
+            ))}
           </div>
         </div>
       </div>
